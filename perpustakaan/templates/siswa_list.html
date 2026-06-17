@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %} List Siswa {% endblock %}
+
+{% block content %}
+<!-- Header Halaman: Menyamakan judul 'User', deskripsi, dan tombol sesuai gambar -->
+<div class="flex justify-between items-start mb-6">
+    <div>
+        <p class="text-sm text-gray-400 font-medium mb-0.5">Data siswa yang bisa meminjam buku.</p>
+        <h2 class="text-3xl font-bold text-gray-800 tracking-tight">User</h2>
+    </div>
+    <a href="{% url 'siswa_tambah' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-5 rounded-full shadow-sm flex items-center gap-1.5 transition duration-200 text-sm">
+        <!-- Ikon Tambah User -->
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+        Tambah User
+    </a>
+</div>
+
+<!-- Komponen Notifikasi Pesan Peringatan (Tetap Dipertahankan dari Fitur Sebelumnya) -->
+{% if messages %}
+    <div class="mb-5 space-y-2">
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div id="msg-{{ forloop.counter }}" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-xl shadow-sm flex justify-between items-center animate-bounce">
+                    <div><strong>Peringatan:</strong> {{ message }}</div>
+                    <button onclick="document.getElementById('msg-{{ forloop.counter }}').remove()" class="text-red-700 hover:text-red-900 font-bold text-xl leading-none focus:outline-none px-2">&times;</button>
+                </div>
+            {% else %}
+                <div id="msg-{{ forloop.counter }}" class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-xl shadow-sm flex justify-between items-center animate-bounce">
+                    <div>{{ message }}</div>
+                    <button onclick="document.getElementById('msg-{{ forloop.counter }}').remove()" class="text-green-700 hover:text-green-900 font-bold text-xl leading-none focus:outline-none px-2">&times;</button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!-- Kontainer Tabel Utama dengan Sudut Membulat Tebal Modern -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-100">
+        <!-- Bagian Head Tabel: Menyamakan judul kolom dan warna teks soft gray -->
+        <thead class="bg-white">
+            <tr>
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider w-16">ID</th>
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Nama</th>
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Kelas</th>
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">NIS</th>
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Status</th>
+                <th class="px-6 py-4 text-center text-xs font-semibold text-gray-400 uppercase tracking-wider w-44">Aksi</th>
+            </tr>
+        </thead>
+        <!-- Bagian Isi Tabel dengan Teks Bersih Sesuai Gambar -->
+        <tbody class="bg-white divide-y divide-gray-50 text-sm text-gray-600">
+            {% for s in siswa %}
+            <tr class="hover:bg-gray-50/50 transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap text-gray-400 font-medium">{{ forloop.counter }}</td>
+                <td class="px-6 py-4 font-medium text-gray-800">{{ s.nama }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ s.kelas }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ s.nis }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <!-- Status Badge Minimalis Sesuai Gambar Referensi -->
+                    {% if s.is_active %}
+                    <span class="text-green-600 font-semibold text-sm">
+                        Aktif
+                    </span>
+                    {% else %}
+                    <span class="text-red-500 font-semibold text-sm">
+                        Tidak Aktif
+                    </span>
+                    {% endif %}
+                </td>
+                <!-- Tombol Aksi Berbentuk Kapsul Solid Sesuai Gambar -->
+                <td class="px-6 py-4 whitespace-nowrap text-center text-xs font-medium">
+                    <div class="flex justify-center items-center gap-2">
+                        <a href="{% url 'siswa_detail' s.id %}" class="bg-gray-600 hover:bg-gray-400 text-white font-medium py-1 px-4 rounded-full shadow-sm transition duration-150">
+                            Detail
+                        </a>
+                        
+                        <!-- Tombol Edit Warna Biru Kapsul -->
+                        <a href="{% url 'siswa_edit' s.id %}" class="bg-blue-600 hover:bg-blue-400 text-white font-medium py-1 px-4 rounded-full shadow-sm transition duration-150">
+                            Edit
+                        </a>
+                        
+                        <!-- Tombol Hapus Warna Merah Kapsul -->
+                        <a href="{% url 'siswa_hapus' s.id %}" onclick="return confirm('Yakin ingin menghapus siswa ini?')" class="bg-red-500 hover:bg-red-300 text-white font-medium py-1 px-4 rounded-full shadow-sm transition duration-150">
+                            Hapus
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="px-6 py-8 text-center text-sm text-gray-400 italic">Belum ada data siswa yang tersimpan.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %} {% if buku %}Edit Buku{% else %}Tambah Buku{% endif %} {% endblock %}
+
+{% block content %}
+<!-- Header Form: Estetika modern dengan sub-judul konsisten -->
+<div class="max-w-2xl mx-auto mb-6">
+    <p class="text-sm text-gray-400 font-medium mb-0.5">
+        {% if buku %}Perbarui informasi detail koleksi buku.{% else %}Masukkan katalog buku baru ke sistem.{% endif %}
+    </p>
+    <h2 class="text-3xl font-bold text-gray-800 tracking-tight">
+        {% if buku %}Form Edit Buku{% else %}Form Tambah Buku{% endif %}
+    </h2>
+</div>
+
+<!-- Box Form Utama: Tampilan Elegan dengan Pembulatan rounded-2xl -->
+<form method="POST" class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-2xl mx-auto space-y-5">
+    {% csrf_token %}
+    
+    <!-- Baris 1: Judul dan Pengarang -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <label class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Judul Buku</label>
+            <input type="text" name="judul" value="{{ buku.judul }}" required placeholder="Contoh: Elena" 
+                   class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150">
+        </div>
+        <div>
+            <label class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Pengarang</label>
+            <input type="text" name="pengarang" value="{{ buku.pengarang }}" required placeholder="Nama penulis buku" 
+                   class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150">
+        </div>
+    </div>
+    
+    <!-- Baris 2: Penerbit dan Tahun Terbit -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <label class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Penerbit</label>
+            <input type="text" name="penerbit" value="{{ buku.penerbit }}" required placeholder="Nama penerbit" 
+                   class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150">
+        </div>
+        <div>
+            <label class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Tahun Terbit</label>
+            <input type="number" name="tahun_terbit" value="{{ buku.tahun_terbit }}" required placeholder="Contoh: 2024" 
+                   class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150">
+        </div>
+    </div>
+    
+    <!-- Baris 3: Kategori, Rak, dan Stok -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+            <label class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Kategori</label>
+            <select name="kategori" class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150 cursor-pointer">
+                <option value="Novel" {% if buku.kategori == 'Novel' %}selected{% endif %}>Novel</option>
+                <option value="Sejarah" {% if buku.kategori == 'Sejarah' %}selected{% endif %}>Sejarah</option>
+                <option value="Pendidikan" {% if buku.kategori == 'Pendidikan' %}selected{% endif %}>Pendidikan</option>
+            </select>
+        </div>
+        <div>
+            <label class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Lokasi Rak</label>
+            <select name="rak" class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150 cursor-pointer">
+                <option value="Rak A-01" {% if buku.rak == 'Rak A-01' %}selected{% endif %}>Rak A-01</option>
+                <option value="Rak A-02" {% if buku.rak == 'Rak A-02' %}selected{% endif %}>Rak A-02</option>
+                <option value="Rak A-03" {% if buku.rak == 'Rak A-03' %}selected{% endif %}>Rak A-03</option>
+            </select>
+        </div>
+        <div>
+            <label class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Jumlah Stok</label>
+            <input type="number" name="stok" value="{{ buku.stok }}" required placeholder="0" 
+                   class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150">
+        </div>
+    </div>
+    
+    <!-- Baris 4: Deskripsi -->
+    <div>
+        <label class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Deskripsi / Sinopsis Buku</label>
+        <textarea name="deskripsi" rows="4" placeholder="Tulis ringkasan singkat isi buku di sini..." 
+                  class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150 resize-none">{{ buku.deskripsi }}</textarea>
+    </div>
+    
+    <!-- Tombol Aksi Pil Kapsul Bulat Penuh -->
+    <div class="flex justify-end space-x-3 pt-2">
+        <a href="{% url 'buku_list' %}" class="bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium py-2.5 px-6 rounded-full text-sm transition duration-150">
+            Batal
+        </a>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-full text-sm shadow-sm transition duration-150">
+            Simpan Data
+        </button>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+<!-- Wrapper utama agar jaraknya pas dengan sidebar -->
+<div class="p-1">
+    <!-- Bagian Grid Atas: Dibagi menjadi 4 kolom yang presisi sesuai gambar -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        
+        <!-- 1. KARTU TOTAL BUKU -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between h-36 relative">
+            <div class="flex justify-between items-start">
+                <span class="text-gray-400 font-medium text-sm">Total Buku</span>
+                <!-- Ikon Buku di Pojok Kanan Atas -->
+                <div class="text-blue-500 bg-blue-50 p-2 rounded-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h3 class="text-3xl font-bold text-gray-900 leading-none mb-1">{{ total_stok_buku }}</h3>
+                <p class="text-xs text-gray-400">Keseluruhan unit buku tersedia.</p>
+            </div>
+        </div>
+
+        <!-- 2. KARTU TOTAL JUDUL -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between h-36 relative">
+            <div class="flex justify-between items-start">
+                <span class="text-gray-400 font-medium text-sm">Total Judul</span>
+                <!-- Ikon Folder/Koleksi -->
+                <div class="text-indigo-500 bg-indigo-50 p-2 rounded-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h3 class="text-3xl font-bold text-gray-900 leading-none mb-1">{{ total_judul_buku }}</h3>
+                <p class="text-xs text-gray-400">Jumlah koleksi judul buku.</p>
+            </div>
+        </div>
+
+        <!-- 3. KARTU SEDANG DIPINJAM -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between h-36 relative">
+            <div class="flex justify-between items-start">
+                <span class="text-gray-400 font-medium text-sm">Sedang Dipinjam</span>
+                <!-- Ikon Menunggu/Jam Istirahat -->
+                <div class="text-amber-500 bg-amber-50 p-2 rounded-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h3 class="text-3xl font-bold text-gray-900 leading-none mb-1">{{ total_dipinjam }}</h3>
+                <p class="text-xs text-gray-400">Transaksi peminjaman aktif.</p>
+            </div>
+        </div>
+
+        <!-- 4. KARTU TOTAL SISWA (Diubah teks bawahnya agar senada dengan gambar) -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between h-36 relative">
+            <div class="flex justify-between items-start">
+                <span class="text-gray-400 font-medium text-sm">Total Anggota</span>
+                <!-- Ikon Centang Berhasil / Total Member -->
+                <div class="text-green-500 bg-green-50 p-2 rounded-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h3 class="text-3xl font-bold text-gray-900 leading-none mb-1">{{ total_siswa }}</h3>
+                <p class="text-xs text-gray-400">Siswa terdaftar di sistem.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %} Form Peminjaman {% endblock %}
+
+{% block content %}
+<!-- Header Form -->
+<div class="max-w-xl mx-auto mb-6">
+    <p class="text-sm text-gray-400 font-medium mb-0.5">Input transaksi sirkulasi baru.</p>
+    <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Form Peminjaman</h2>
+</div>
+
+<!-- Alert Peringatan Stok Habis dengan Sudut Melengkung Modern -->
+{% if error %}
+<div class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-6 max-w-xl mx-auto rounded-r-xl shadow-sm flex items-start gap-3" role="alert">
+    <svg class="w-5 h-5 text-red-500 mt-0.5 flex-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+    <div>
+        <p class="font-bold text-sm leading-tight mb-0.5">Gagal Menyimpan</p>
+        <p class="text-xs text-red-600">{{ error }}</p>
+    </div>
+</div>
+{% endif %}
+
+<!-- Box Form Utama: Tampilan Elegan dengan Focus Ring Berwarna Lembut -->
+<form method="POST" class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-xl mx-auto space-y-5">
+    {% csrf_token %}
+    
+    <div>
+        <label class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Nama Siswa</label>
+        <select name="siswa_id" required class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150 cursor-pointer">
+            {% for s in siswa %}
+                <option value="{{ s.id }}">{{ s.nama }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div>
+        <label class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Buku yang Dipinjam</label>
+        <select name="buku_id" required class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150 cursor-pointer">
+            {% for b in buku %}
+                <option value="{{ b.id }}">{{ b.judul }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <label class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Tgl Pinjam</label>
+            <input type="date" name="tanggal_pinjam" required class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150">
+        </div>
+        <div>
+            <label class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Jatuh Tempo</label>
+            <input type="date" name="jatuh_tempo" required class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150">
+        </div>
+    </div>
+    
+    <div>
+        <label class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Keperluan</label>
+        <textarea name="keperluan" required rows="3" placeholder="Contoh: Tugas mandiri kelas..." class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150 resize-none"></textarea>
+    </div>
+    
+    <!-- Tombol Aksi Kapsul Presisi -->
+    <div class="flex justify-end space-x-3 pt-2">
+        <a href="{% url 'peminjaman_list' %}" class="bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium py-2.5 px-6 rounded-full text-sm transition duration-150">
+            Batal
+        </a>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-full text-sm shadow-sm transition duration-150">
+            Simpan Transaksi
+        </button>
+    </div>
+</form>
+{% endblock %}

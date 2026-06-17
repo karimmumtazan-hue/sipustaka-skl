@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %} Detail User {% endblock %}
+{% block content %}
+<div class="max-w-2xl mx-auto space-y-6">
+    <!-- Profil Singkat -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex justify-between items-center">
+        <div>
+            <h2 class="text-3xl font-bold text-gray-800">{{ siswa.nama }}</h2>
+            <p class="text-gray-500 text-sm mt-1">Kelas {{ siswa.kelas }} &bull; NIS {{ siswa.nis }}</p>
+        </div>
+        <div>
+            {% if siswa.is_active %}
+                <span class="bg-green-50 text-green-600 font-bold px-4 py-1.5 rounded-full text-sm">User Aktif</span>
+            {% else %}
+                <span class="bg-red-50 text-red-500 font-bold px-4 py-1.5 rounded-full text-sm">Tidak Aktif</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Riwayat Transaksi -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">Riwayat Peminjaman Buku</h3>
+        <div class="overflow-hidden rounded-xl border border-gray-50">
+            <table class="min-w-full text-sm text-gray-600">
+                <thead class="bg-gray-50 text-xs font-semibold text-gray-400 uppercase">
+                    <tr>
+                        <th class="px-6 py-3 text-left">Judul Buku</th>
+                        <th class="px-6 py-3 text-left">Tanggal Pinjam</th>
+                        <th class="px-6 py-3 text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+                    {% for r in riwayat %}
+                    <tr>
+                        <td class="px-6 py-4 font-medium text-gray-800">{{ r.judul }}</td>
+                        <td class="px-6 py-4">{{ r.tanggal_pinjam }}</td>
+                        <td class="px-6 py-4 text-center">
+                            {% if r.status == 'Dipinjam' %}
+                                <span class="text-yellow-600 font-semibold">Sedang Dipinjam</span>
+                            {% else %}
+                                <span class="text-green-600 font-semibold">Sudah Dikembalikan</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="px-6 py-6 text-center text-gray-400 italic">Siswa ini belum pernah meminjam buku.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-6">
+            <a href="{% url 'siswa_list' %}" class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-5 rounded-full text-sm transition">Kembali</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

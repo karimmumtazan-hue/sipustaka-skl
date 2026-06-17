@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %} {% if siswa %}Edit User{% else %}Tambah User{% endif %} {% endblock %}
+
+{% block content %}
+<!-- Header Form: Menyamakan estetika sub-judul agar konsisten -->
+<div class="max-w-xl mx-auto mb-6">
+    <p class="text-sm text-gray-400 font-medium mb-0.5">
+        {% if siswa %}Perbarui data profil user terdaftar.{% else %}Daun data user baru ke sistem.{% endif %}
+    </p>
+    <h2 class="text-3xl font-bold text-gray-800 tracking-tight">
+        {% if siswa %}Form Edit User{% else %}Form Tambah User{% endif %}
+    </h2>
+</div>
+
+<!-- Box Form Utama: Tampilan Elegan dengan Focus Ring Berwarna Lembut -->
+<form method="POST" class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-xl mx-auto space-y-5">
+    {% csrf_token %}
+    
+    <div>
+        <label for="nama" class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Nama Siswa</label>
+        <input type="text" id="nama" name="nama" required
+               value="{% if siswa %}{{ siswa.nama }}{% endif %}"
+               placeholder="Masukkan nama lengkap siswa"
+               class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150">
+    </div>
+
+    <div>
+        <label for="kelas" class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">Kelas</label>
+        <input type="text" id="kelas" name="kelas" required
+               value="{% if siswa %}{{ siswa.kelas }}{% endif %}"
+               placeholder="Contoh: XI-RPL"
+               class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150">
+    </div>
+
+    <div>
+        <label for="nis" class="block text-gray-700 text-xs font-bold uppercase tracking-wider mb-2">NIS (Nomor Induk Siswa)</label>
+        <input type="text" id="nis" name="nis" required
+               value="{% if siswa %}{{ siswa.nis }}{% endif %}"
+               placeholder="Masukkan 4-5 digit nomor induk"
+               class="w-full bg-gray-50 border border-gray-200 text-sm text-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150">
+    </div>
+
+    <!-- Toggle Checkbox Status Aktif Bergaya Minimalis -->
+    <div class="flex items-center bg-gray-50 border border-gray-100 p-4 rounded-xl">
+        <input type="checkbox" id="is_active" name="is_active" value="1"
+               {% if siswa and siswa.is_active %}checked{% endif %}
+               class="h-4 w-4 text-blue-600 focus:ring-blue-500/20 border-gray-300 rounded cursor-pointer">
+        <label for="is_active" class="ml-2.5 block text-sm font-medium text-gray-700 cursor-pointer select-none">
+            Siswa Aktif <span class="text-xs text-gray-400 font-normal">(Centang jika siswa dapat meminjam buku)</span>
+        </label>
+    </div>
+
+    <!-- Tombol Aksi Berbentuk Kapsul Bulat Penuh -->
+    <div class="flex justify-end space-x-3 pt-2">
+        <a href="{% url 'siswa_list' %}" class="bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium py-2.5 px-6 rounded-full text-sm transition duration-150">
+            Batal
+        </a>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-full text-sm shadow-sm transition duration-150">
+            Simpan Data
+        </button>
+    </div>
+</form>
+{% endblock %}
