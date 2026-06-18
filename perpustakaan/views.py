@@ -110,12 +110,22 @@ def siswa_tambah(request):
     if request.method == 'POST':
         data = request.POST
         is_active = True if request.POST.get('is_active') == '1' else False
+
         with connection.cursor() as cursor:
             cursor.execute('''
-                INSERT INTO siswa (nama, kelas, nis, is_active)
-                VALUES (%s, %s, %s, %s)
-            ''', [data['nama'], data['kelas'], data['nis'], is_active])
+                INSERT INTO siswa
+                (nama, kelas, nis, is_active, is_hadir)
+                VALUES (%s, %s, %s, %s, %s)
+            ''', [
+                data['nama'],
+                data['kelas'],
+                data['nis'],
+                is_active,
+                True
+            ])
+
         return redirect('siswa_list')
+
     return render(request, 'siswa_form.html')
 
 def siswa_edit(request, id):
