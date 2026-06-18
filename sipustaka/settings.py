@@ -25,9 +25,7 @@ SECRET_KEY = 'django-insecure-^9sfjf54_&$zy!(9+fra&va@!gh+c1(ircp4tzzg46cws2vnsp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'haroen2010.pythonanywhere.com'
-]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -77,15 +75,10 @@ WSGI_APPLICATION = 'sipustaka.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'perpus_db',
-        'USER': 'postgres',
-        'PASSWORD': '123123',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
